@@ -6,7 +6,11 @@ def load_data(path=CSV_PATH):
     df = df.sort_index()    # this is used to sort by date btw
     df = df.asfreq("D")    # used to take one row per day hehe
     return df
-
+if __name__ == "__main__":    #testing the function
+    df = load_data()
+    print(df.shape)
+    print(df.head())  
+    
 def load_series(var="tavg", path=CSV_PATH):
     df = load_data(path)
     s = df[var]
@@ -18,3 +22,7 @@ def load_series(var="tavg", path=CSV_PATH):
     if n_left > 0 :
         print(f"Warning : {n_left} NaN left in {var}")  # if even after cleaning we still have NaN it will tell that the var is not clean instead of getting wrong results silently
     return s
+
+if __name__ == "__main__":    #testing the function
+    s = load_series("tavg")
+    print(len(s), s.index.min(), s.index.max(), s.isna().sum())
