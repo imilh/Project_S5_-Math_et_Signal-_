@@ -78,5 +78,3 @@ only 19 values and is excluded.
 | 2 | Fourier analysis (Q2) |
 | 3 | Sampling and filtering (Q3-Q4) |
 | 4 | Autocorrelation, interpretation, poster (Q5-Q6) |
-
-Names: _to fill in_
