@@ -32,6 +32,7 @@ because the paths `data/...` and `figures/...` are relative.
 
     python data.py        # quick test of the loader
     python q1_stats.py    # prints the statistics and saves the Q1 figures
+    python q2_fourier.py  # prints the spectral peaks and the reconstruction errors, saves the Q2 figures
 
 ## Using the shared data module
 
@@ -69,6 +70,36 @@ because the paths `data/...` and `figures/...` are relative.
 
 The daily climatology is computed on days 1-365 only: day 366 (leap years) has
 only 19 values and is excluded.
+
+## Main results of Q2 (Fourier analysis)
+
+Method: FFT of `tavg` (mean removed first) with `np.fft.rfft`, amplitude spectrum
+`A = 2|X|/N` (in °C), peaks detected with `scipy.signal.find_peaks`, then
+reconstruction of the signal from the K largest components with the inverse FFT.
+Frequency resolution: 1/N cycle/day (1/75 cycle/year). Nyquist: 0.5 cycle/day.
+
+Main peaks of the spectrum:
+
+| Period | Frequency | Amplitude | Share of variance | Meaning |
+|---|---|---|---|---|
+| 365.3 days | 1 cycle/year | 9.16 °C | 75.4 % | annual cycle (seasons) |
+| 27394 and 9131 days | 0.01 and 0.04 cycle/year | 0.88 and 0.41 °C | 0.8 % | warming trend, spread over the lowest frequencies |
+| 182.6 days | 2 cycles/year | 0.47 °C | 0.2 % | 2nd harmonic: the annual cycle is not a perfect sine wave |
+| 95-110 days | 3.3-3.8 cycles/year | ~0.3 °C | < 0.1 % each | weather noise (not multiples of 1 cycle/year) |
+
+Reconstruction error (RMSE) vs number of components K:
+
+| K | 0 | 1 | 3 | 5 | 50 | 1000 |
+|---|---|---|---|---|---|---|
+| RMSE (°C) | 7.46 | 3.70 | 3.63 | 3.61 | 3.43 | 2.26 |
+| Variance explained | 0 % | 75.4 % | 76.3 % | 76.5 % | 78.9 % | 90.8 % |
+
+One sine wave (the annual cycle) halves the error. After that the error decreases
+very slowly: what remains is day-to-day weather, spread over thousands of
+frequencies with no dominant one.
+
+Figures: `q2_spectrum_freq.png`, `q2_spectrum_period.png`, `q2_reconstruction.png`,
+`q2_error_vs_K.png`.
 
 ## Team
 
