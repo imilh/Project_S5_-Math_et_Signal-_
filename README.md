@@ -20,7 +20,8 @@ Libraries used: numpy, pandas, matplotlib, scipy.
     ├── data.py                       shared module: loads the CSV, returns clean series
     ├── q1_stats.py                   Q1: statistics, trend, seasonality
     ├── q2_fourier.py                 Q2: Fourier analysis and reconstruction
-    ├── q3_q4_sampling_filter.py      Q3-Q4: subsampling, aliasing, filtering
+    ├── q3_sampling.py                Q3: subsampling, Nyquist, aliasing, anti-aliasing
+    ├── q4_filtering.py               Q4: filter bank (trend / seasons / weather)
     ├── q5_autocorr.py                Q5: autocorrelation
     ├── requirements.txt
     └── README.md
