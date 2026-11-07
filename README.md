@@ -101,6 +101,49 @@ frequencies with no dominant one.
 Figures: `q2_spectrum_freq.png`, `q2_spectrum_period.png`, `q2_reconstruction.png`,
 `q2_error_vs_K.png`.
 
+## Main results of Q3 (sampling and aliasing)
+
+Keeping 1 value every M days gives a Nyquist frequency fN = 1/(2M). The annual cycle
+(f0 = 1/365.25 cycle/day) needs M < 182.6 days; beyond, it comes back at
+`f_alias = |f0 - k/M|` (k = closest integer to f0·M) and creates fake periodicities.
+
+| Step M | Nyquist (cycles/year) | Annual cycle seen at (theory) | Measured on the spectrum |
+|---|---|---|---|
+| 7, 30, 90, 180 days | 26.09, 6.09, 2.03, 1.01 | 1 cycle/year (no aliasing) | 1.00 cycle/year |
+| 240 days | 0.76 | period 1.92 years | 1.92 years, amplitude 9.2 °C |
+| 365 days | 0.50 | ~0 (same day every year: the cycle disappears) | - |
+| 380 days | 0.48 | period 25.8 years | 26.4 years, amplitude 9.3 °C |
+
+Aliasing moves the energy to a wrong frequency but keeps its amplitude (~9 °C, as in Q2).
+Even for M = 30 days, the weather faster than 60 days (17.4 % of the variance) is folded back:
+noise floor +6.7 dB without filter. Parseval check: variance 54.3 °C² (naive subsampling),
+46.0 °C² with an anti-aliasing filter, 45.9 °C² expected. Hence monthly *means*, not one value per month.
+
+Figures: `q3_alias_vs_step.png`, `q3_time_domain.png`, `q3_spectra.png`, `q3_antialiasing.png`.
+
+## Main results of Q4 (filtering)
+
+Bank of 2 Butterworth low-pass filters (order 4, `sosfiltfilt`, zero phase) that splits the
+signal exactly (max error 1.8e-15 °C): `x = T + S + R` with T = periods > 5 years,
+S = 30 days to 5 years, R = periods < 30 days.
+
+| | Result |
+|---|---|
+| Share of the variance | S (seasons) 85 %, R (weather) 12 %, T (trend) 1.3 % |
+| Annual cycle in S | amplitude 9.16 °C |
+| Warming trend | +0.31 °C/decade 1950-2024 (same as Q1), +0.51 °C/decade since 1980, ~+2.3 °C in total |
+| Causal vs zero-phase filter | delay measured 14 days, theoretical group delay 12.5 days |
+| Day-to-day variability (std of R) | winter 2.99 °C, summer 2.36 °C (ratio 1.27) |
+
+Choice of filter: Butterworth has a flat pass band (the annual cycle is not distorted); a 30-day
+moving average leaks fast weather through its side lobes (-13 dB); a FIR is very selective but delays
+the signal by 120 days if causal. Second-order sections are used because the (b, a) form is unstable
+for a 1/(5 years) cut-off, and the edges are padded by even reflection (the default odd reflection
+makes the trend dive at both ends). Limit: a heat wave of ~2 weeks (August 2003) is close to the
+30-day cut-off, so it appears mostly in the slow component.
+
+Figures: `q4_filter_responses.png`, `q4_decomposition.png`, `q4_spectra_components.png`,
+`q4_zoom_causal_vs_zero_phase.png`, `q4_weather_variability.png`.
 ## Team
 
 | Person | Part |
