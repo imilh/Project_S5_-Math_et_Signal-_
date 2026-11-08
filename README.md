@@ -147,6 +147,50 @@ Figures: `q4_filter_responses.png`, `q4_decomposition.png`, `q4_spectra_componen
 `q4_zoom_causal_vs_zero_phase.png`, `q4_weather_variability.png`.
 ## Team
 
+## Main results of Q5 (autocorrelation)
+
+Autocorrelation was calculated for both daily mean temperature and daily precipitation over all available time lags.
+
+| Variable | Main observation | Interpretation |
+|---|---|---|
+| Mean temperature (tavg) | Strong oscillations with peaks approximately every 365 days | Clear annual seasonality |
+| Precipitation (prcp) | Autocorrelation remains close to zero at annual lags | Weak year-to-year correlation |
+
+**Temperature:** The autocorrelation function exhibits a clear periodic pattern, with maxima recurring approximately every 365 days. This confirms the annual seasonal cycle identified by Fourier analysis, which revealed a dominant period of 365.3 days. The autocorrelation gradually decreases at longer time lags.
+
+**Precipitation:** Unlike temperature, precipitation shows very weak autocorrelation at multiples of 365 days. This indicates that precipitation on a given day is poorly correlated with precipitation on the corresponding day in subsequent years. No strong annual periodicity is apparent in the autocorrelation function.
+
+**Conclusion:** Autocorrelation confirms the strong annual seasonality of temperature, whereas daily precipitation exhibits much weaker long-term correlation.
+
+Figures: `figures/q5_tavg_autocorrelation.png`, `figures/q5_prcp_autocorrelation.png`.
+
+
+## Q6 – Global interpretation
+
+The analysis of daily weather data from Strasbourg-Entzheim between 1950 and 2024 reveals several important characteristics of climate variability and long-term evolution.
+
+**1. Temperature is mainly driven by seasonal variations.**
+
+The statistical analysis (Q1) and Fourier analysis (Q2) both highlight a strong annual cycle. Its dominant period is approximately 365.3 days, and it explains 75.4% of the temperature variance. The filtering analysis (Q4) confirms this result: seasonal variations account for approximately 85% of the variance. The autocorrelation analysis (Q5) also reveals recurring maxima every 365 days, confirming that temperatures at the same time of year tend to be similar from one year to another.
+
+**2. A long-term warming trend is also present.**
+
+The statistical analysis identifies an increase of approximately 0.31 °C per decade between 1950 and 2024. The filtering analysis confirms this trend and estimates an even stronger warming rate of 0.51 °C per decade since 1980, corresponding to an increase of approximately 2.3 °C over this period. This shows that the temperature series contains both regular seasonal variations and a long-term evolution.
+
+**3. Sampling must be handled carefully.**
+
+The sampling experiments (Q3) demonstrate that reducing the sampling frequency too much can cause aliasing. In particular, sampling every 365 days makes the annual cycle disappear, while sampling every 380 days creates an apparent period of approximately 26 years. This shows that the sampling frequency must be sufficiently high to correctly represent the original signal. Anti-aliasing filtering is therefore important before downsampling.
+
+**4. Precipitation behaves differently from temperature.**
+
+Unlike temperature, precipitation does not exhibit a strong annual autocorrelation at lags corresponding to whole years. Its long-term trend is also not statistically significant in the studied data. This suggests that daily precipitation is much less regular and less predictable from one year to another.
+
+**Overall conclusion**
+
+The study shows that temperature is characterized by a strong annual seasonal cycle and a significant long-term warming trend. Filtering and Fourier analysis provide complementary ways to identify these components, while autocorrelation confirms the annual repetition. The sampling experiments demonstrate the importance of respecting the Nyquist criterion to avoid misleading results. Precipitation, on the other hand, exhibits much weaker temporal regularity at the annual scale.
+
+Together, these methods provide a complementary description of the temporal structure and evolution of the local climate between 1950 and 2024.
+
 | Person | Part |
 |---|---|
 | 1 | Data and statistics (Q1) |
